@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-// Fonction pour générer des données fictives pour les modules
-export const generateModules = (count: number) => {
+// Function to generate mock module data
+const generateModules = (count: number) => {
   const modules = [];
   const enseignants = [
     "Drissa Kouma",
@@ -33,7 +33,7 @@ export const generateModules = (count: number) => {
 };
 
 const TableComponent = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
 
@@ -62,15 +62,15 @@ const TableComponent = () => {
   return (
     <div className="w-full mt-16 gap-10 flex flex-col justify-start items-center">
       <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-        <h3 className="text-3xl font-medium">Liste des Modules</h3>
+        <h3 className="text-3xl font-medium">Module List</h3>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead className="bg-blue-100">
             <tr>
               <th style={{ border: "1px solid #ddd", padding: "10px 25px" }}>
-                Nom Module
+                Module Name
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px 25px" }}>
-                Enseignants
+                Teachers
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px 25px" }}>
                 Classes
@@ -94,11 +94,11 @@ const TableComponent = () => {
                 </td>
                 <td
                   className=" flex gap-3 border-1 py-[14px] px-[25px] text-center border border-[#ddd]"
-                  // style={{
-                  //   border: "1px solid #ddd",
-                  //   padding: "10px 25px",
-                  //   textAlign: "center",
-                  // }}
+                // style={{
+                //   border: "1px solid #ddd",
+                //   padding: "10px 25px",
+                //   textAlign: "center",
+                // }}
                 >
                   <Image
                     src="/icons/pencil.png"
@@ -130,17 +130,17 @@ const TableComponent = () => {
             disabled={currentPage === 1}
             className="text-white bg-blue-500 bg-opacity-95 rounded-lg px-3 py-1"
           >
-            Précedent
+            Previous
           </button>
           <span>
-            Page {currentPage} sur {totalPages}
+            Page {currentPage} of {totalPages}
           </span>
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
             className="text-white bg-blue-500 bg-opacity-95 rounded-lg px-3 py-1"
           >
-            Suivant
+            Next
           </button>
         </div>
       </div>

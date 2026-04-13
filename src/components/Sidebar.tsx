@@ -7,16 +7,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
-const Sidebar = () => {
+const Sidebar = ({ user: layoutUser }: { user?: any }) => {
   const user = useContext(UserContext);
   const links: any[] =
     user.userRole === "admin"
       ? AdminLinks
       : user.userRole === "professeur"
-      ? ProfesseurLinks
-      : user.userRole === "etudiant"
-      ? EtudiantLinks
-      : [];
+        ? ProfesseurLinks
+        : user.userRole === "etudiant"
+          ? EtudiantLinks
+          : [];
   const pathname = usePathname();
 
   return (

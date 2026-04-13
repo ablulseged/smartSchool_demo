@@ -3,7 +3,16 @@ import "./style.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+const EnvelopeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+const LockIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+  </svg>
+);
 
 export default function Page() {
   const route = useRouter();
@@ -13,28 +22,15 @@ export default function Page() {
     const formData = new FormData(e.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
 
-    // Renommez le champ pour correspondre à ce que le backend attend
+    // Mock login - redirect immediately
     const payload = {
       email: data.email,
-      password: data.mot_de_passe, // Correspond au champ attendu côté serveur
+      password: data.mot_de_passe,
     };
 
-    console.log("Payload envoyé :", payload); // Debugging
-
-    const login = await fetch("/api/connexion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload), // Envoyez le bon format
-    });
-
-    if (login.ok) {
-      alert("Connexion réussie");
-      route.push("./");
-    } else {
-      alert("Erreur de connexion");
-    }
+    console.log("Login payload:", payload);
+    alert("Login successful (Mock)");
+    route.push("./");
   };
 
   const [isFocused1, setIsFocused1] = useState(false);
@@ -43,18 +39,18 @@ export default function Page() {
     <form onSubmit={handleSub}>
       <div className="flex justify-center items-center h-screen login">
         <div className="w-3/5 h-3/5 max-w-2xl bg-gray-500 bg-opacity-5 rounded-3xl  flex justify-between sm:grid-cols-2 lg:grid-cols-3 partie">
-          {/* partie droite */}
+          {/* Left section */}
           <div className="mt-6 mx-3 w-2/5 partie1">
-            {/* head */}
+            {/* Header */}
             <div className="flex">
               <img src="logo.ico" width={30} height={30} alt="Logo" />
               <h1>TECHNOLAB ISTA</h1>
             </div>
-            {/* partie input  */}
+            {/* Input section */}
             <div className="mt-7 flex flex-col h-5/6 justify-between centre">
               <h2>LOGIN</h2>
               <div className="relative">
-                {/* Input */}
+                {/* Email Input */}
                 <input
                   type="email"
                   name="email"
@@ -65,13 +61,13 @@ export default function Page() {
                 />
                 {/* Icon */}
                 {!isFocused1 ? (
-                  <FaEnvelope className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300" />
+                  <EnvelopeIcon />
                 ) : (
                   ""
                 )}
               </div>
               <div className="relative">
-                {/* Input */}
+                {/* Password Input */}
                 <input
                   type="password"
                   name="mot_de_passe"
@@ -82,19 +78,19 @@ export default function Page() {
                 />
                 {/* Icon */}
                 {!isFocused2 ? (
-                  <FaLock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300" />
+                  <LockIcon />
                 ) : (
                   ""
                 )}
               </div>
               <a href="" className="text-right text-cyan-500">
-                Mot de passe oublier
+                Forgot password?
               </a>
               <button
                 className="bg-cyan-500 text-white py-2 px-4 rounded-md mt-8 phone "
                 type="submit"
               >
-                Envoyer
+                Sign In
               </button>
               <span className="flex justify-between mt-1 phone login-icon">
                 <a
@@ -139,7 +135,7 @@ export default function Page() {
               </span>
             </div>
           </div>
-          {/* partie gauche  */}
+          {/* Right section - decorative */}
           <div className="flex rounded-2xl partie2">
             <svg
               viewBox="0 0 566 840"

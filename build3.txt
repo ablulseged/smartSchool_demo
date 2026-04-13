@@ -1,0 +1,22 @@
+
+> app@0.1.0 build
+> next build
+
+   ▲ Next.js 15.1.6
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/app/(root)/admin/enseignants/page.tsx:5:27
+Type error: Type '{ enseignants: never[]; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'enseignants' does not exist on type 'IntrinsicAttributes'.
+
+[0m [90m 3 |[39m [90m// Génération des données enseignants côté serveur[39m[0m
+[0m [90m 4 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mPage[39m() {[0m
+[0m[31m[1m>[22m[39m[90m 5 |[39m   [36mreturn[39m [33m<[39m[33mEnseignantTable[39m enseignants[33m=[39m{[]} [35m/>; /[39m[33m/[39m [33mPasser[39m les enseignants au composant client[0m
+[0m [90m   |[39m                           [31m[1m^[22m[39m[0m
+[0m [90m 6 |[39m }[0m
+[0m [90m 7 |[39m[0m
+Static worker exited with code: 1 and signal: null

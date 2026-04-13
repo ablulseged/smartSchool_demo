@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const RightSidebar = ({ user }) => {
+const RightSidebar = ({ user }: { user?: any }) => {
   return (
     <aside className="right-sidebar">
       <section className="flex flex-col pb-8">

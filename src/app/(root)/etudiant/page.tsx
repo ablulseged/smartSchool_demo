@@ -10,10 +10,11 @@ const userData = {
   desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus ad, exercitationem consectetur a beatae nobis culpa tenetur incidunt",
   email: "Soule1716@gmail.com",
   adresse: "Missabougou",
-  date: "Janvier 2025",
+  date: "January 2025",
   tel: "73-04-03-09",
 };
-const Home = () => {
+
+const StudentHome = () => {
   return (
     <div className="w-full mt-16 gap-2 flex justify-center items-start">
       <div className="flex flex-col gap-2 w-[900px] justify-center items-start">
@@ -26,17 +27,17 @@ const Home = () => {
               <MiniSmallIconCard
                 photoName="/icons/Bookmark.png"
                 stats="12"
-                name="Module"
+                name="Modules"
               />
               <MiniSmallIconCard
                 photoName="/icons/Training.png"
                 stats="AP"
-                name="Classe"
+                name="Class"
               />
               <MiniSmallIconCard
                 photoName="/icons/Close.png"
                 stats="2"
-                name="Module non valide"
+                name="Failed Modules"
               />
             </div>
           </div>
@@ -51,4 +52,4 @@ const Home = () => {
     </div>
   );
 };
-export default Home;
+export default StudentHome;

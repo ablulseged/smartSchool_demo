@@ -1,33 +1,33 @@
 "use client";
 
 import Annonce from "@/components/annonceCard/Annonce";
-import Calendar from "@/components/calendar/Calendar";
+import Calendar from "@/components/eventCalendar/Calendar";
 
-export default function LesAnnonces() {
-  const annonces = [
+export default function Announcements() {
+  const announcements = [
     {
-      title: "Avis examen",
+      title: "Exam Notice",
       description:
         "Supporting line text lorem ipsum dolor sit amet, consectetur",
-      actions: ["Réagir", "Supprimer"],
+      actions: ["React", "Delete"],
     },
     {
-      title: "Annonce payement",
+      title: "Payment Announcement",
       description:
         "Supporting line text lorem ipsum dolor sit amet, consectetur",
-      actions: ["Réagir", "Supprimer"],
+      actions: ["React", "Delete"],
     },
     {
-      title: "Avis session",
+      title: "Session Notice",
       description:
         "A dialog is a type of modal window that appears in front of app content to provide critical information.",
       actions: ["Action 2", "Action 1"],
     },
     {
-      title: "Title",
+      title: "General Notice",
       description:
         "Supporting line text lorem ipsum dolor sit amet, consectetur",
-      actions: ["Réagir", "Supprimer"],
+      actions: ["React", "Delete"],
     },
   ];
 
@@ -37,16 +37,10 @@ export default function LesAnnonces() {
         <Calendar />
       </div>
       <h1 className="text-2xl font-bold text-gray-800 mb-6 m-5">
-        Les Annonces
+        Announcements
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {annonces.map((annonce, index) => (
-          // <Card
-          //   key={index}
-          //   title={annonce.title}
-          //   description={annonce.description}
-          //   actions={annonce.actions}
-          // />
+        {announcements.map((annonce, index) => (
           <Annonce
             key={index}
             title={annonce.title}

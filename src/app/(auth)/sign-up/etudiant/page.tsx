@@ -14,68 +14,67 @@ export default function Register() {
     const formData = new FormData(event.currentTarget);
 
     try {
-      const result = await registerUser(formData);
-      setSuccess("Étudiant créé avec succès !");
+      await registerUser(formData);
+      setSuccess("Student created successfully!");
     } catch (err) {
-      setError("Erreur lors de la création de l'étudiant.");
+      setError("Error creating student.");
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <br /><br /><br /><br />
-      <h1>Créer un étudiant</h1>
+      <h1>Create a Student</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
       <div>
-        <label>Nom :</label>
+        <label>Last Name:</label>
         <input type="text" name="nom" required />
       </div>
       <div>
-        <label>Prénom :</label>
+        <label>First Name:</label>
         <input type="text" name="prenom" required />
       </div>
       <div>
-        <label>Email :</label>
+        <label>Email:</label>
         <input type="email" name="email" required />
       </div>
       <div>
-        <label>Mot de passe :</label>
+        <label>Password:</label>
         <input type="password" name="mot_de_passe" required />
       </div>
       <div>
-        <label>Rôle ID :</label>
+        <label>Role ID:</label>
         <input type="number" name="id_role" required />
       </div>
       <div>
-        <label>Sexe :</label>
+        <label>Gender:</label>
         <select name="sexe" required>
-          <option value="M">M</option>
-          <option value="F">F</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
         </select>
       </div>
       <div>
-        <label>Téléphone :</label>
+        <label>Phone:</label>
         <input type="text" name="telephone" />
       </div>
       <div>
-        <label>Adresse :</label>
+        <label>Address:</label>
         <input type="text" name="adresse" />
       </div>
       <div>
-        <label>Profil :</label>
+        <label>Profile:</label>
         <input type="text" name="profil" required />
       </div>
       <div>
-        <label>Date de naissance :</label>
+        <label>Date of Birth:</label>
         <input type="date" name="date_naissance" required />
       </div>
       <div>
-        <label>ID Filière :</label>
+        <label>Program ID:</label>
         <input type="number" name="id_filiere" required />
       </div>
-      <button type="submit">Créer</button>
+      <button type="submit">Create</button>
     </form>
   );
 }
-

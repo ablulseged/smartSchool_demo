@@ -1,0 +1,21 @@
+
+> app@0.1.0 build
+> next build
+
+   ▲ Next.js 15.1.6
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/(root)/admin/annonces/page.tsx
+Module not found: Can't resolve '@/components/calendar/Calendar'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/(root)/admin/parametre/page.tsx
+Module not found: Can't resolve '../../../context/SettingsContext'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors

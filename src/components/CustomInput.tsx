@@ -10,10 +10,9 @@ import {
 } from "./ui/form";
 import { Control } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "@/lib/utils";
 
 interface CustomInput {
-  control: Control<z.infer<typeof formSchema>>;
+  control: Control<any>;
   name: "email" | "password" | "prenom" | "nom" | "adresse" | "date";
   label: string;
   placeholder: string;

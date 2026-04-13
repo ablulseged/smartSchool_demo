@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-// Définir le type des props
-type UpdateEtudiantModalProps = {
+type UpdateStudentModalProps = {
   etudiant: {
     id: number;
     utilisateurs: {
@@ -18,16 +17,15 @@ type UpdateEtudiantModalProps = {
       nom: string;
     };
   };
-  onClose: () => void; // Fonction pour fermer le modal
-  onUpdate: (id: number, updatedData: any) => Promise<void>; // Fonction pour mettre à jour l'étudiant
+  onClose: () => void;
+  onUpdate: (id: number, updatedData: any) => Promise<void>;
 };
 
-export default function UpdateEtudiantModal({
+export default function UpdateStudentModal({
   etudiant,
   onClose,
   onUpdate,
-}: UpdateEtudiantModalProps) {
-  // État pour stocker les données du formulaire
+}: UpdateStudentModalProps) {
   const [formData, setFormData] = useState({
     nom: etudiant.utilisateurs.nom,
     prenom: etudiant.utilisateurs.prenom,
@@ -37,30 +35,28 @@ export default function UpdateEtudiantModal({
     filiere: etudiant.filieres.nom,
   });
 
-  // Gérer les changements dans les champs du formulaire
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Gérer la soumission du formulaire
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onUpdate(etudiant.id, formData); // Appeler la fonction de mise à jour
-    onClose(); // Fermer le modal après la mise à jour
+    await onUpdate(etudiant.id, formData);
+    onClose();
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div
         className="bg-white rounded-lg p-6 shadow-lg w-full max-w-md"
-        onClick={(e) => e.stopPropagation()} // Empêcher la fermeture du modal lors d'un clic à l'intérieur
+        onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-xl font-bold mb-4">Modifier l'étudiant</h2>
+        <h2 className="text-xl font-bold mb-4">Edit Student</h2>
         <form onSubmit={handleSubmit}>
-          {/* Champ Nom */}
+          {/* Last Name */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Nom</label>
+            <label className="block text-sm font-medium mb-2">Last Name</label>
             <input
               type="text"
               name="nom"
@@ -71,9 +67,9 @@ export default function UpdateEtudiantModal({
             />
           </div>
 
-          {/* Champ Prénom */}
+          {/* First Name */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Prénom</label>
+            <label className="block text-sm font-medium mb-2">First Name</label>
             <input
               type="text"
               name="prenom"
@@ -84,7 +80,7 @@ export default function UpdateEtudiantModal({
             />
           </div>
 
-          {/* Champ Email */}
+          {/* Email */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">Email</label>
             <input
@@ -97,9 +93,9 @@ export default function UpdateEtudiantModal({
             />
           </div>
 
-          {/* Champ Téléphone */}
+          {/* Phone */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Téléphone</label>
+            <label className="block text-sm font-medium mb-2">Phone</label>
             <input
               type="text"
               name="telephone"
@@ -110,9 +106,9 @@ export default function UpdateEtudiantModal({
             />
           </div>
 
-          {/* Champ Adresse */}
+          {/* Address */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Adresse</label>
+            <label className="block text-sm font-medium mb-2">Address</label>
             <input
               type="text"
               name="adresse"
@@ -123,9 +119,9 @@ export default function UpdateEtudiantModal({
             />
           </div>
 
-          {/* Champ Filière */}
+          {/* Program */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Filière</label>
+            <label className="block text-sm font-medium mb-2">Program</label>
             <input
               type="text"
               name="filiere"
@@ -136,20 +132,20 @@ export default function UpdateEtudiantModal({
             />
           </div>
 
-          {/* Boutons Annuler et Enregistrer */}
+          {/* Actions */}
           <div className="flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
               className="bg-gray-500 text-white px-4 py-2 rounded"
             >
-              Annuler
+              Cancel
             </button>
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded"
             >
-              Enregistrer
+              Save
             </button>
           </div>
         </form>

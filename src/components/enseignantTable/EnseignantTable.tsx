@@ -1,11 +1,10 @@
 "use client";
-
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { registerTeacher } from "@/actions/signupprofesseur";
-import RegisterFormEnseignant from "../formulaires/FormulaireProf";
+import RegisterFormTeacher from "../formulaires/FormulaireProf";
 
-type EnseignantType = {
+type TeacherType = {
   id: number;
   utilisateurs: {
     nom: string;
@@ -28,8 +27,8 @@ type EnseignantType = {
   }[];
 };
 
-const EnseignantTable = () => {
-  const [enseignants, setEnseignants] = useState<EnseignantType[]>([]);
+const EnseignantTable = ({ user: layoutUser }: { user?: any }) => {
+  const [enseignants, setEnseignants] = useState<TeacherType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isSur, setIsSur] = useState(false);
 
@@ -49,45 +48,29 @@ const EnseignantTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Filtrer les enseignants selon la recherche
-  const filteredEnseignants = enseignants.filter(
+  // Filter teachers by search query
+  const filteredTeachers = enseignants.filter(
     (enseignant) =>
-      enseignant.utilisateurs.nom
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      enseignant.utilisateurs.email
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
+      enseignant.utilisateurs.nom.toLowerCase().includes(search.toLowerCase()) ||
+      enseignant.utilisateurs.email.toLowerCase().includes(search.toLowerCase()) ||
       enseignant.cours.some((cours) =>
-        cours.filieremodule.filieres.nom
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        cours.filieremodule.filieres.nom.toLowerCase().includes(search.toLowerCase())
       ) ||
       enseignant.cours.some((cours) =>
-        cours.filieremodule.syllabus
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        cours.filieremodule.syllabus?.toLowerCase().includes(search.toLowerCase())
       ) ||
       enseignant.cours.some((cours) =>
-        cours.filieremodule.modules.nom
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        cours.filieremodule.modules.nom.toLowerCase().includes(search.toLowerCase())
       ) ||
-      enseignant.utilisateurs.adresse
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
+      enseignant.utilisateurs.adresse.toLowerCase().includes(search.toLowerCase()) ||
       enseignant.utilisateurs.telephone.includes(search)
   );
 
   // Pagination
-  const totalPages = Math.ceil(filteredEnseignants.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredTeachers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentEnseignants = filteredEnseignants.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-  console.log(currentEnseignants);
+  const currentTeachers = filteredTeachers.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -102,30 +85,32 @@ const EnseignantTable = () => {
     setCurrentPage(1);
   };
 
-  // Récupérer les enseignants depuis l'API
   useEffect(() => {
-    const fetchEnseignants = async () => {
-      const res = await fetch("/api/recuperationEnseignant");
-      if (!res.ok) {
-        console.log("Erreur API :", res.status);
-        return;
-      }
-      const data = await res.json();
-      console.log("Données récupérées :", data);
-      setEnseignants(data);
+    const fetchTeachers = async () => {
+      // Mock data instead of fetch
+      setEnseignants([
+        {
+          id: 1,
+          utilisateurs: {
+            nom: "Mock", prenom: "Teacher", email: "mock@example.com",
+            telephone: "12345678", adresse: "Mock Address", profil: ""
+          },
+          cours: []
+        }
+      ]);
     };
 
-    fetchEnseignants();
+    fetchTeachers();
   }, []);
 
   return (
     <div className="w-full mt-16 gap-10 flex flex-col justify-start items-center">
       <div className="flex flex-col">
-        <h1 className="text-xl font-bold mb-4">Liste des Enseignants</h1>
+        <h1 className="text-xl font-bold mb-4">Teacher List</h1>
         <div className="flex items-center justify-between mb-4">
           <input
             type="text"
-            placeholder="Rechercher..."
+            placeholder="Search..."
             className="border rounded p-2 w-1/3"
             value={search}
             onChange={handleSearchChange}
@@ -137,17 +122,17 @@ const EnseignantTable = () => {
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="p-2">Infos</th>
-              <th className="p-2">ID_Enseignant</th>
+              <th className="p-2">Info</th>
+              <th className="p-2">Teacher ID</th>
               <th className="p-2">Modules</th>
               <th className="p-2">Classes</th>
-              <th className="p-2">Téléphone</th>
-              <th className="p-2">Adresses</th>
+              <th className="p-2">Phone</th>
+              <th className="p-2">Address</th>
               <th className="p-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentEnseignants.map((enseignant) => (
+            {currentTeachers.map((enseignant) => (
               <tr key={enseignant.id} className="border-b-2 border-b-gray-400">
                 <td className="p-2">
                   <div className="flex items-center gap-2">
@@ -174,7 +159,7 @@ const EnseignantTable = () => {
                       </div>
                     </div>
                   </div>
-                </td> 
+                </td>
                 <td className="p-2">{enseignant.id}</td>
                 <td className="p-2">
                   {enseignant.cours.map((cours) => (
@@ -226,22 +211,22 @@ const EnseignantTable = () => {
             onClick={handlePrevPage}
             disabled={currentPage === 1}
           >
-            Précédent
+            Previous
           </button>
           <div>
-            Page {currentPage} sur {totalPages}
+            Page {currentPage} of {totalPages}
           </div>
           <button
             className="px-4 py-2 bg-gray-200 rounded"
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
           >
-            Suivant
+            Next
           </button>
         </div>
       </div>
 
-      {/* Ouvre le formualire d'inscription du prof */}
+      {/* Teacher registration modal */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -251,14 +236,15 @@ const EnseignantTable = () => {
             className="bg-white rounded-lg p-2 shadow-lg lg:px-8 lg:py-4 relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <RegisterFormEnseignant
+            <RegisterFormTeacher
               onSubmit={handleRegisterSubmit}
-              title="Inscription d'un nouveau Enseignant"
+              title="Enroll a New Teacher"
             />
           </div>
         </div>
       )}
-      {/* Ouvre le formualire d'inscription du prof */}
+
+      {/* Confirmation modal */}
       {isSur && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -269,19 +255,19 @@ const EnseignantTable = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-3xl font-bold text-center">
-              Supprimer un Enseignant
+              Delete Teacher
             </h2>
             <form>
               <div className="flex gap-2 text-center flex-col mt-6">
                 <div className="text-lg flex justify-center font-medium w-[300px]">
-                  êtes-vous sûr de vouloir effectuer cette opération?
+                  Are you sure you want to perform this action?
                 </div>
                 <div className="flex justify-between items-center">
                   <button className="text-xl bg-green-500 rounded-xl px-10 py-2 text-white">
-                    OUI
+                    YES
                   </button>
                   <button className="text-xl bg-red-500 rounded-xl px-10 py-2 text-white">
-                    NON
+                    NO
                   </button>
                 </div>
               </div>

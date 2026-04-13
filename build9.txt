@@ -1,0 +1,22 @@
+
+> app@0.1.0 build
+> next build
+
+   ▲ Next.js 15.1.6
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/ui/chart.tsx:4:36
+Type error: Cannot find module 'recharts' or its corresponding type declarations.
+
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mReact[39m [36mfrom[39m [32m"react"[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mRechartsPrimitive[39m [36mfrom[39m [32m"recharts"[39m[0m
+[0m [90m   |[39m                                    [31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m[0m
+[0m [90m 6 |[39m [36mimport[39m { cn } [36mfrom[39m [32m"@/lib/utils"[39m[0m
+[0m [90m 7 |[39m[0m
+Static worker exited with code: 1 and signal: null

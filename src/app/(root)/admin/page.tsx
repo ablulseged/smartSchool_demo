@@ -15,9 +15,9 @@ export default function Home() {
         <header className="home-header">
           <HeaderBox
             type="greeting"
-            title="Bienvenue"
-            subtext="Technolab ista le meilleure"
-            user="Douba"
+            title="Welcome"
+            subtext="Technolab ISTA - The best"
+            user="Admin"
           />
         </header>
         <Statistique />

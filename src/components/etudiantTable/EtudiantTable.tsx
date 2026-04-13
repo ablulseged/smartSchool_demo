@@ -2,12 +2,11 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { registerUser } from "@/actions/signupetudiant";
-// import RegisterFormEtudiant from "/components/formulaires/RegisterFormEtudiant";
 import RegisterFormEtudiant from "../formulaires/RegisterFormEtudiant ";
-import UpdateEtudiantModal from "../formulaires/UpdateEtudiantModal"; // Assure-toi d'importer le composant
+import UpdateEtudiantModal from "../formulaires/UpdateEtudiantModal";
 
-// Permet de définir le type d'un étudiant
-type EtudiantType = {
+// Student type definition
+type StudentType = {
   id: number;
   utilisateurs: {
     nom: string;
@@ -23,13 +22,11 @@ type EtudiantType = {
 };
 
 const EtudiantTable = () => {
-  const [etudiants, setEtudiants] = useState<EtudiantType[]>([]);
+  const [etudiants, setEtudiants] = useState<StudentType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isSur, setIsSur] = useState(false);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); // État pour le modal de mise à jour
-  const [selectedEtudiant, setSelectedEtudiant] = useState<EtudiantType | null>(
-    null
-  ); // État pour l'étudiant sélectionné
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedEtudiant, setSelectedEtudiant] = useState<StudentType | null>(null);
 
   const toggleIsSur = () => {
     setIsSur(!isSur);
@@ -43,46 +40,35 @@ const EtudiantTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Récupérer les étudiants depuis l'API
+  // Load mock student data
   useEffect(() => {
-    const fetchEtudiants = async () => {
-      const res = await fetch("/api/recuperation");
-      if (!res.ok) {
-        console.log("Erreur API :", res.status);
-        return;
+    setEtudiants([
+      {
+        id: 1,
+        utilisateurs: {
+          nom: "Mock", prenom: "Student", email: "mock@example.com",
+          telephone: "12345678", adresse: "Mock Address", profil: ""
+        },
+        filieres: { nom: "Computer Science" }
       }
-      const data = await res.json();
-      console.log("Données récupérées :", data);
-      setEtudiants(data);
-    };
-
-    fetchEtudiants();
+    ]);
   }, []);
 
-  // Filtrer les étudiants selon la recherche de l'utilisateur
-  const filteredEtudiants = etudiants.filter(
+  // Filter students by search query
+  const filteredStudents = etudiants.filter(
     (etudiant) =>
       etudiant.utilisateurs.nom.toLowerCase().includes(search.toLowerCase()) ||
-      etudiant.utilisateurs.email
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      etudiant.utilisateurs.telephone
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      etudiant.utilisateurs.adresse
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
+      etudiant.utilisateurs.email.toLowerCase().includes(search.toLowerCase()) ||
+      etudiant.utilisateurs.telephone.toLowerCase().includes(search.toLowerCase()) ||
+      etudiant.utilisateurs.adresse.toLowerCase().includes(search.toLowerCase()) ||
       etudiant.utilisateurs.telephone.includes(search)
   );
 
   // Pagination
-  const totalPages = Math.ceil(filteredEtudiants.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentEtudiants = filteredEtudiants.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentStudents = filteredStudents.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -101,35 +87,31 @@ const EtudiantTable = () => {
     await registerUser(formData);
   };
 
-  // Fonction pour gérer la mise à jour d'un étudiant
+  // Handle student update
   const handleUpdate = async (id: number, updatedData: any) => {
     try {
-      const response = await fetch(`/api/etudiant/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedData),
-      });
-      if (response.ok) {
-        // Rafraîchir la liste des étudiants après la mise à jour
-        const res = await fetch("/api/recuperation");
-        const data = await res.json();
-        setEtudiants(data);
-      } else {
-        console.error("Échec de la mise à jour :", response.statusText);
-      }
+      console.log("Mock update student:", id, updatedData);
+      // Optimistically update local state
+      setEtudiants((prev) =>
+        prev.map((e) =>
+          e.id === id
+            ? { ...e, utilisateurs: { ...e.utilisateurs, ...updatedData } }
+            : e
+        )
+      );
     } catch (error) {
-      console.error("Erreur lors de la mise à jour :", error);
+      console.error("Error updating student:", error);
     }
   };
 
   return (
     <div className="w-full mt-16 gap-10 flex flex-col justify-start items-center">
       <div className="flex flex-col">
-        <h1 className="text-xl font-bold mb-4">Liste des Étudiants</h1>
+        <h1 className="text-xl font-bold mb-4">Student List</h1>
         <div className="flex items-center justify-between mb-4">
           <input
             type="text"
-            placeholder="Rechercher..."
+            placeholder="Search..."
             className="border rounded p-2 w-1/3"
             value={search}
             onChange={handleSearchChange}
@@ -142,16 +124,16 @@ const EtudiantTable = () => {
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="p-3">Infos</th>
-              <th className="p-3">ID_Etudiant</th>
-              <th className="p-3">Classes</th>
-              <th className="p-3">Téléphone</th>
-              <th className="p-3">Adresses</th>
+              <th className="p-3">Info</th>
+              <th className="p-3">Student ID</th>
+              <th className="p-3">Program</th>
+              <th className="p-3">Phone</th>
+              <th className="p-3">Address</th>
               <th className="p-3">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentEtudiants.map((etudiant) => (
+            {currentStudents.map((etudiant) => (
               <tr key={etudiant.id} className="border-b-2 border-b-gray-400">
                 <td className="p-3">
                   <div className="flex items-center gap-3">
@@ -187,7 +169,7 @@ const EtudiantTable = () => {
                   <div className="flex gap-3">
                     <Image
                       src="/icons/pencil.png"
-                      alt="update"
+                      alt="edit"
                       width={20}
                       height={20}
                       onClick={() => {
@@ -198,7 +180,7 @@ const EtudiantTable = () => {
                     />
                     <Image
                       src="/icons/eye.png"
-                      alt="delete"
+                      alt="view"
                       width={20}
                       height={20}
                     />
@@ -221,22 +203,22 @@ const EtudiantTable = () => {
             onClick={handlePrevPage}
             disabled={currentPage === 1}
           >
-            Précédent
+            Previous
           </button>
           <div>
-            Page {currentPage} sur {totalPages}
+            Page {currentPage} of {totalPages}
           </div>
           <button
             className="px-4 py-2 bg-gray-200 rounded"
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
           >
-            Suivant
+            Next
           </button>
         </div>
       </div>
 
-      {/* Overlay et formulaire modal pour l'ajout d'un étudiant */}
+      {/* Add student modal */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -248,13 +230,13 @@ const EtudiantTable = () => {
           >
             <RegisterFormEtudiant
               onSubmit={handleRegisterSubmit}
-              title="Inscription d'un nouvel étudiant"
+              title="Enroll a New Student"
             />
           </div>
         </div>
       )}
 
-      {/* Overlay et formulaire modal pour la mise à jour d'un étudiant */}
+      {/* Update student modal */}
       {isUpdateModalOpen && selectedEtudiant && (
         <UpdateEtudiantModal
           etudiant={selectedEtudiant}
@@ -263,7 +245,7 @@ const EtudiantTable = () => {
         />
       )}
 
-      {/* Overlay et modal de confirmation pour la suppression */}
+      {/* Delete confirmation modal */}
       {isSur && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -274,19 +256,19 @@ const EtudiantTable = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-3xl font-bold text-center">
-              Supprimer un Enseignant
+              Delete Student
             </h2>
             <form>
               <div className="flex gap-2 text-center flex-col mt-6">
                 <div className="text-lg flex justify-center font-medium w-[300px]">
-                  Êtes-vous sûr de vouloir effectuer cette opération?
+                  Are you sure you want to perform this action?
                 </div>
                 <div className="flex justify-between items-center">
                   <button className="text-xl bg-green-500 rounded-xl px-10 py-2 text-white">
-                    OUI
+                    YES
                   </button>
                   <button className="text-xl bg-red-500 rounded-xl px-10 py-2 text-white">
-                    NON
+                    NO
                   </button>
                 </div>
               </div>

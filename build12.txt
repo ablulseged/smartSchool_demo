@@ -1,0 +1,47 @@
+
+> app@0.1.0 build
+> next build
+
+   ▲ Next.js 15.1.6
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/3) ...
+ ✓ Generating static pages (3/3)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ƒ /                                    464 B           106 kB
+├ ƒ /_not-found                          979 B           106 kB
+├ ƒ /admin                               1.46 kB         116 kB
+├ ƒ /admin/annonces                      1.21 kB         107 kB
+├ ƒ /admin/classes                       144 B           106 kB
+├ ƒ /admin/enseignants                   2.77 kB         114 kB
+├ ƒ /admin/etudiants                     3.11 kB         114 kB
+├ ƒ /admin/messages                      144 B           106 kB
+├ ƒ /admin/parametre                     2.55 kB         108 kB
+├ ƒ /admin/profil                        2.29 kB         113 kB
+├ ƒ /admin/result                        144 B           106 kB
+├ ƒ /admin/sujets                        1.49 kB         112 kB
+├ ƒ /etudiant                            34.4 kB         153 kB
+├ ƒ /etudiant/annonces                   1.2 kB          114 kB
+├ ƒ /etudiant/classe                     1.91 kB         120 kB
+├ ƒ /etudiant/messages                   1.4 kB          120 kB
+├ ƒ /etudiant/note                       1.66 kB         112 kB
+├ ƒ /etudiant/result                     144 B           106 kB
+├ ƒ /professeur                          172 B           111 kB
+├ ƒ /sign-in                             2.13 kB         113 kB
+├ ƒ /sign-up/etudiant                    1 kB            106 kB
+├ ƒ /sign-up/professeur                  1.02 kB         106 kB
+└ ƒ /sign-up/utilisateur                 1.01 kB         106 kB
++ First Load JS shared by all            105 kB
+  ├ chunks/4bd1b696-6a12372261950b24.js  52.9 kB
+  ├ chunks/517-d7e2a091d11eb74f.js       50.5 kB
+  └ other shared chunks (total)          2 kB
+
+
+ƒ  (Dynamic)  server-rendered on demand
+
